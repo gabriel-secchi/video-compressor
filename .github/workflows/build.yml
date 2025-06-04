@@ -1,0 +1,29 @@
+name: Build Extension
+
+on:
+  workflow_dispatch: # Permite execução manual
+
+jobs:
+  build:
+    if: github.actor == 'gabriel-secchi'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm cli
+
+      - name: Build do projeto
+        run: npm run build
+
+      - name: Upload do build (dist/)
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome-extension-build
+          path: dist/
