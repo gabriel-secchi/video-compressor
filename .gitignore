@@ -110,6 +110,10 @@ dist
 # vitepress cache directory
 **/.vitepress/cache
 
+# Vite / bundler cache
+.vite/
+.cache/
+
 # Docusaurus cache and generated files
 .docusaurus
 
