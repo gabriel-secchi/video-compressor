@@ -1,0 +1,26 @@
+{
+	"manifest_version": 3,
+	"name": "Video Compressor",
+	"version": "1.0",
+	"description": "Comprime vídeos diretamente no navegador.",
+	"permissions": [],
+	"action": {
+		"default_popup": "src/popup.html",
+		"default_icon": {
+			"16": "icon.png"
+		}
+	},
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"ffmpeg-core/*"
+			],
+			"matches": [
+				"<all_urls>"
+			]
+		}
+	],
+	"content_security_policy": {
+		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+	}
+}

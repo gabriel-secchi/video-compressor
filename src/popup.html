@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Compressão de vídeo</title>
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+    <h2>Comprimir vídeo</h2>
+    <input type="file" id="fileInput" accept="video/*" />
+    <div class="checkbox" style="display: none;">
+        <input type="checkbox" id="chkMute" />
+        <div>Remover som</div>
+    </div>
+    <div class="footer">
+        <button id="compressBtn">Comprimir</button>
+        <div id="panelStatus"></div>
+        <div id="loader" class="loader"></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
