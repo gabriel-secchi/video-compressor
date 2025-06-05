@@ -17,13 +17,13 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependências
-        run: npm cli
+        run: npm ci
 
       - name: Build do projeto
         run: npm run build
 
       - name: Upload do build (dist/)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: chrome-extension-build
           path: dist/
