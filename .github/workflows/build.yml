@@ -8,13 +8,14 @@ jobs:
     if: github.actor == 'gabriel-secchi'
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v3
+      - name: clonar repositório
+        uses: actions/checkout@v4
 
       - name: Instalar node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Instalar dependências
         run: npm ci
@@ -27,3 +28,4 @@ jobs:
         with:
           name: chrome-extension-build
           path: dist/
+          if-no-files-found: error
