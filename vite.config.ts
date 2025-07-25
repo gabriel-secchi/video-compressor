@@ -1,10 +1,12 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                popup: 'src/popup.html'
+                popup: resolve(__dirname, 'src/popup.html'),
+                background: resolve(__dirname, 'src/background.js')
             },
             output: {
                 entryFileNames: 'assets/[name].js',

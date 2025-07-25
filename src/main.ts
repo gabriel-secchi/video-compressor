@@ -47,7 +47,7 @@ compressBtn?.addEventListener("click", async () => {
 
   const a = document.createElement('a');
   a.href = url;
-  a.download = fileNameOutput; //'compressed.mp4';
+  a.download = fileNameOutput;
   a.click();
 
   panelStatus.textContent = "compressao concluída!";
