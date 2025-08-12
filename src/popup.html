@@ -3,21 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compressão de vídeo</title>
     <link rel="stylesheet" href="/src/style.css" />
 </head>
 
 <body>
-    <h2>Comprimir vídeo</h2>
-    <input type="file" id="fileInput" accept="video/*" />
-    <div class="checkbox" style="display: none;">
-        <input type="checkbox" id="chkMute" />
-        <div>Remover som</div>
-    </div>
-    <div class="footer">
-        <button id="compressBtn">Comprimir</button>
-        <div id="panelStatus"></div>
-        <div id="loader" class="loader"></div>
+    <div class="container">
+        <h1>Compressão de Vídeo</h1>
+        <p>Envie seu vídeo para iniciar a compressão. Você pode continuar navegando em outras abas.</p>
+
+        <input type="file" id="videoInput" accept="video/*" hidden>
+        <button class="upload-btn" id="videoButton">Selecionar Vídeo</button>
+
+        <div class="progress-container" style="margin-top: 1.5rem;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="status" id="statusText">Aguardando envio...</div>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
