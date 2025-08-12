@@ -7,61 +7,82 @@ ffmpeg.on("progress", ({ progress }: { progress: number }) => {
   updatePercent(progress);
 });
 
-const fileInput = document.getElementById("fileInput") as HTMLInputElement;
-const compressBtn = document.getElementById("compressBtn");
-const panelStatus = document.getElementById("panelStatus") as HTMLDivElement;
-//const chkMute = document.getElementById("chkMute");
-const loader = document.getElementById("loader") as HTMLDivElement;
+//to activate ffmpeg logs
+//ffmpeg.on("log", ({ type, message }) => {
+//  console.log(`[FFmpeg ${type}] ${message}`);
+//});
 
-compressBtn?.addEventListener("click", async () => {
+const fileInput = document.getElementById("videoInput") as HTMLInputElement;
+const videoButton = document.getElementById("videoButton") as HTMLButtonElement;
+const panelStatus = document.getElementById("statusText") as HTMLDivElement;
+const loader = document.getElementById("progressBar") as HTMLDivElement;
 
-  console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(ffmpeg)));
+videoButton?.addEventListener("click", async () => {
+  fileInput?.click();
+});
+
+fileInput?.addEventListener("change", async () => {
 
   if (!fileInput.files?.length) {
-    panelStatus.textContent = "escolha um arquivo primeiro.";
+    panelStatus.textContent = "primeiro escolha um arquivo";
     return;
   }
 
-  panelStatus.textContent = "carregando FFmpeg";
-  await ffmpeg.load({
-    coreURL: chrome.runtime.getURL('ffmpeg-core/ffmpeg-core.js'),
-    wasmURL: chrome.runtime.getURL('ffmpeg-core/ffmpeg-core.wasm')
-  });
+  try {
+    videoButton.disabled = true;
+    panelStatus.textContent = "carregando FFmpeg";
+    await ffmpeg.load({
+      coreURL: chrome.runtime.getURL('ffmpeg-core/ffmpeg-core.js'),
+      wasmURL: chrome.runtime.getURL('ffmpeg-core/ffmpeg-core.wasm')
+    });
 
-  const file = fileInput.files[0]
-  const data = await fetchFile(file);
-  const INPUT_FILE = "input.mp4";
-  const OUTPUT_FILE = "output.mp4";
+    const file = fileInput.files[0]
+    const data = await fetchFile(file);
+    const INPUT_FILE = "input.mp4";
+    const OUTPUT_FILE = "output.mp4";
 
-  await ffmpeg.writeFile(INPUT_FILE, data);
+    await ffmpeg.writeFile(INPUT_FILE, data);
 
-  //-preset [ultrafast, superfast, fast, medium, slow]
-  //-crf quanto menor o valor maior arquivo e maior qualidade de 0 até 50
-  await ffmpeg.exec(['-i', INPUT_FILE, '-vcodec', 'libx264', '-crf', '28', '-preset', 'veryfast', OUTPUT_FILE]);
+    //-preset [ultrafast, superfast, fast, medium, slow]
+    //-crf quanto menor o valor maior arquivo e maior qualidade de 0 até 50
+    await ffmpeg.exec([
+      '-i', INPUT_FILE,
+      //'-vf', 'fps=30,scale=1080:-1',
+      '-vcodec', 'libx264',
+      '-crf', '28',
+      '-preset', 'veryfast',
+      //'-vsync', 'vfr',
+      OUTPUT_FILE
+    ]);
 
-  const output = await ffmpeg.readFile(OUTPUT_FILE);
-  const blob = new Blob([output], { type: 'video/mp4' });
-  const url = URL.createObjectURL(blob);
+    const output = await ffmpeg.readFile(OUTPUT_FILE);
+    const blob = new Blob([output], { type: 'video/mp4' });
+    const url = URL.createObjectURL(blob);
 
-  const fileNameOutput = buildFileNameOutput(file.name);
+    const fileNameOutput = buildFileNameOutput(file.name);
 
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileNameOutput;
-  a.click();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileNameOutput;
+    a.click();
 
-  panelStatus.textContent = "compressao concluída!";
+    panelStatus.textContent = "compressao concluída!";
+  }
+  catch (err) {
+    console.error(err);
+    panelStatus.textContent = "Erro na compressão.";
+  }
+  finally {
+    fileInput.value = "";
+    videoButton.disabled = false;
+  }
 });
 
 function updatePercent(ratio: number) {
   const percent = Math.round(ratio * 100);
   panelStatus.textContent = `comprimindo vídeo: ${percent}%`;
   if (loader) {
-    if (percent < 100) {
-      loader.style.display = 'block';
-    } else {
-      loader.style.display = 'none';
-    }
+    loader.style.width = percent + "%";
   }
 }
 
