@@ -3,9 +3,6 @@
 	"name": "Video Compressor",
 	"version": "1.0",
 	"description": "Comprime vídeos diretamente no navegador.",
-	"permissions": [
-		"tabs"
-	],
 	"action": {
 		"default_icon": {
 			"16": "icon.png"
