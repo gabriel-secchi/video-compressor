@@ -1,4 +1,5 @@
 # 🎬 Video Compressor Extension (Chrome)
+### 🔗 Link da extensão [chromewebstore.google.com/detail/video-compressor](https://chromewebstore.google.com/detail/video-compressor/oejknmlndfaabjehofmcpgfmojnkklmn)
 
 Uma extensão para navegador que permite **comprimir vídeos diretamente no seu navegador**, utilizando [`ffmpeg.wasm`](https://github.com/ffmpegwasm/ffmpeg.wasm) – uma versão WebAssembly do poderoso FFmpeg.  
 ✅ Tudo acontece localmente, com **privacidade garantida** e sem necessidade de enviar arquivos para a nuvem.</br>
